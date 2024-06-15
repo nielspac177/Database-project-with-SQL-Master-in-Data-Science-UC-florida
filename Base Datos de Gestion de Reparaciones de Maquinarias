@@ -1,0 +1,839 @@
+
+------Creacion de tablas
+
+CREATE TABLE grupo03.Maquinista(
+	Id_Maquinista int not null primary key,
+	Nombre_Maquinista varchar(250),
+	Apellido_Maquinista varchar(250)
+);
+
+CREATE TABLE grupo03.Maquina(
+	Id_Maquina int not null primary key,
+	Maquina	varchar(250),
+	Velocidad int,
+	Cant_Cortes int,
+	Id_Maquinista int,
+	constraint fk_Maquinista foreign key (Id_Maquinista) references grupo03.Maquinista(Id_Maquinista)
+);
+
+CREATE TABLE grupo03.Tecnico(
+	Id_Tecnico int not null primary key,
+	Nombre varchar(250),
+	Apellido varchar(250),
+	Contrase�a varchar(250),
+	Cargo varchar(250)
+);
+
+CREATE TABLE grupo03.Turno(
+	Id_Turno int not null primary key,
+	Turno varchar(250)
+);
+
+CREATE TABLE grupo03.Repuestos(
+	Id_Repuesto int not null primary key,
+	Nombre varchar(250),
+	Precio decimal(10,2),
+	CONSTRAINT CHK_Precio_Negativo CHECK (Precio >= 0) 
+);
+
+CREATE TABLE grupo03.Seccion(
+	Id_Seccion int not null primary key,
+	Seccion varchar(250)
+);
+
+CREATE TABLE grupo03.Categoria(
+	Id_Categoria int not null primary key,
+	Categoria varchar(250),
+	Id_Seccion int,
+	constraint fk_Seccion foreign key (Id_Seccion) references grupo03.Seccion(Id_Seccion)
+);
+
+CREATE TABLE grupo03.Estado(
+	Id_Estado int not null primary key,
+	Estado varchar(250)
+);
+
+CREATE TABLE grupo03.Incidencia(
+	Id_Incidencia int identity(1,1) not null primary key,
+	Fecha_Hora_Registro datetime,
+	Id_Maquina int,
+	Fecha_Hora_Inicial_Parada datetime,
+	Fecha_Hora_Final_Parada datetime,
+	Id_Tecnico int,
+	Id_Estado int,
+	constraint fk_Maquina foreign key (Id_Maquina) references grupo03.Maquina(Id_Maquina),
+	constraint fk_Tecnico foreign key (Id_Tecnico) references grupo03.Tecnico(Id_Tecnico),
+	constraint fk_Estado foreign key (Id_Estado) references grupo03.Estado(Id_Estado)
+);
+
+CREATE TABLE grupo03.Reg_Mantenimiento(
+	Id_Reg_Mantenimiento int identity(1,1) not null primary key,
+	Fecha_Hora_Inicial_Reparacion datetime,
+	Fecha_Hora_Final_Reparacion datetime,
+	Id_Incidencia int,
+	Id_Turno int,
+	constraint fk_Incidencia foreign key (Id_Incidencia) references grupo03.Incidencia(Id_Incidencia),
+	constraint fk_Turno foreign key (Id_Turno) references grupo03.Turno(Id_Turno)
+);
+
+CREATE TABLE grupo03.Detalle_Reg_Mantenimiento(
+	Id_Detalle_Reg_Mantenimiento int identity(1,1) not null primary key,
+	Id_Categoria int,
+	Descripcion varchar(500),
+	Id_Repuesto int,
+	Id_Reg_Mantenimiento int,
+	constraint fk_Categoria foreign key (Id_Categoria) references grupo03.Categoria(Id_Categoria),
+	constraint fk_Repuestos foreign key (Id_Repuesto) references grupo03.Repuestos(Id_Repuesto),
+	constraint fk_Reg_Mantenimiento foreign key (Id_Reg_Mantenimiento) references grupo03.Reg_Mantenimiento(Id_Reg_Mantenimiento)
+);
+
+
+----insert tabla Maquinista
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (1, 'Rogger', 'Diaz Rodriguez');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (2, 'Julio', 'Clavijo Fernandes');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (3, 'Vilmer', 'Valladares Soto');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (4, 'Jose', 'Arevalo Curita');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (5, 'Percy', 'Amasifuen Santis');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (6, 'Jaime', 'Alarcon Perez');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (7, 'Rodolfo', 'Ramirez Huaman');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (8, 'Juan', 'Serrano Tineo');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (9, 'Israel', 'Medina Hinostrosa');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (10, 'Ramon', 'Posadas Montes');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (11, 'Carlos', 'Yovera Rojas');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (12, 'Jose', 'Rivas Colacci');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (13, 'Jhoel', 'Segura Villarreal');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (14, 'Luis', 'Aguedo Quispe');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (15, 'Jose', 'Gabino Avila');
+INSERT INTO grupo03.Maquinista (Id_Maquinista, Nombre_Maquinista, Apellido_Maquinista) VALUES (16, 'Jhonny', 'Melendrez Santos');
+
+----insert tabla Maquina
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('1','Doble 1', 30, 2, 3);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('2','Doble 2', 60, 2, 5);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('3','Refresco', 45, 3, 1);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('4','Fustec 1', 25, 1, 9);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('5','Fustec 2', 25, 1, 10);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('6','Granel', 30, 1, 2);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('7','Simple', 15, 1, 15);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('8','Mezcladora 1', 10, 0, 7);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('9','Mezcladora 2', 10, 0, 11);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('10','Mezcladora 3', 10, 0, 4);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('11','Mezcladora 4', 10, 0, 8);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('12','Estuchadora', 20, 0, 12);
+INSERT INTO grupo03.Maquina (Id_Maquina, Maquina, Velocidad, Cant_Cortes, Id_Maquinista) VALUES ('13','Empacadora', 20, 0, 6);
+
+----insert tabla Tecnico
+INSERT INTO grupo03.Tecnico (Id_Tecnico, Nombre, Apellido, Contrase�a, Cargo) VALUES ('1','Jose', 'Santos Solorzano', 'J0s3$', 'Ing. Mantenimiento');
+INSERT INTO grupo03.Tecnico (Id_Tecnico, Nombre, Apellido, Contrase�a, Cargo) VALUES ('2','Enrique', 'Salazar Vega', '3nr1qu3$', 'Supervisor');
+INSERT INTO grupo03.Tecnico (Id_Tecnico, Nombre, Apellido, Contrase�a, Cargo) VALUES ('3','Manual', 'Eyzaguirre Terrones', 'M4nu3l$', 'Tecnico');
+
+----insert tabla Turno
+INSERT INTO grupo03.Turno (Id_turno, Turno) VALUES ('1','Dia');
+INSERT INTO grupo03.Turno (Id_turno, Turno) VALUES ('2','Noche');
+
+----insert tabla Repuestos
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('1', 'Cepillos de Limpieza', 3.50);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('2', 'Selladores', 2.50);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('3', 'Selladores Herm�ticos', 4.75);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('4', 'Conectores de cables', 3.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('5', 'Abrazaderas y gu�as para cable', 10.50);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('6', 'Tinta resistente a solventes', 7.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('7', 'Kit de limpieza', 15.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('8', 'Detergentes', 12.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('9', 'Limpiadores de pH', 12.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('10', 'Solventes suaves', 11.25);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('11', 'Conmutador', 24.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('12', 'Rodamientos', 35.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('13', 'resistencia', 12.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('14', 'resinas aislantes', 27.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('15', 'Aislamiento t�rmico', 23.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('16', 'Tarjeta JL 1010 (CONMUTADORA)', 38.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('17', 'SENSOR OPTOCAPTOR CON CBLE P/ENCODER', 175.25);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('18', 'FUENTE DE ALIMENTACION', 365.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('19', 'transformadores', 32.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('20', 'RESISTENCIA CUADRADA', 12.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('21', 'VARIADOR DE VELOCIDAD 1HP 220 VAC TEK DRIVE', 98.42);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('22', 'FUENTE DE ALIMENTACION', 147.36);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('23', 'UNION TEE 6MM', 203.36);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('24', 'CIL COMPACTO C16', 48.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('25', 'PERNO SIN FIN DOSIFICADOR #1', 15.36);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('26', 'CONECTOR RECTO 1/8 X 4', 74.38);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('27', 'CUPLA ENCODER', 15.25);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('28', 'POLEAS', 23.89);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('29', 'FAJAS CON LINATEX DENTADAS', 47.50);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('30', 'ARANDELAS DE PRESION', 42.69);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('31', 'RUEDAS DE TRACCI�N COMPLETA', 76.38);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('32', 'GOMAS DE RUEDA DE TRACCI�N', 33.14);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('33', 'SENSOR CONTROL DE TEMPERATURA', 152.30);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('34', 'PLACA ELECTRONICA', 32.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('35', 'LUBRICANTE', 12.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('36', 'SCANNER DE CONTROL TERMICO', 189.55);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('37', 'CUPLA INFRAROJA 5VCC CON SE�ALENCODER Y RESET', 16.75);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('38', 'PISTONES 4030045', 23.35);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('39', 'UNIDAD DE MANTENIMIENTO G1/4'' (0103003532)', 55.50);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('40', 'CONECTOR RECTO 1/4'' 6 MM', 14.75);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('41', 'FILTRO REGULADOR QBM4 G1/2'' (0101003532)', 23.36);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('42', 'CONECTOR Y 5'' 4 MM', 45.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('43', 'CILINDRO COMPACTO C16 32MMX15MM', 75.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('44', 'SELLOS GT87 0159328', 36.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('45', 'VARIADOR DE VELOCIDAD 170 VAC', 25.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('46', 'ELECTROVALVULA FRENO 0.210.005.211 MICRO', 74.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('47', 'AISLAMIENTO', 32.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('48', 'BATERIA 6-GFM-85 12V', 140.00);
+INSERT INTO grupo03.Repuestos (Id_Repuesto, Nombre, Precio) VALUES ('49', 'FILTRO DE LINEA 250 VCA', 25.80);
+
+----insert tabla Seccion
+INSERT INTO grupo03.Seccion (Id_Seccion, Seccion) VALUES ('1','Mantenimiento');
+INSERT INTO grupo03.Seccion (Id_Seccion, Seccion) VALUES ('2','Sistema Electrico');
+INSERT INTO grupo03.Seccion (Id_Seccion, Seccion) VALUES ('3','Sistema Mecanico');
+INSERT INTO grupo03.Seccion (Id_Seccion, Seccion) VALUES ('4','Sistema Neumatico');
+INSERT INTO grupo03.Seccion (Id_Seccion, Seccion) VALUES ('5','Factores Externos');
+
+
+----insert tabla Categoria
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('1','Limpieza de Maquina', 1);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('2','Limpieza de Tablero', 1);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('3','Limpieza de Faja', 1);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('4','Falla de Motor Electrico', 2);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('5','Falla Sensor de Movimiento', 2);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('6','Falla Equipo Electricos', 2);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('7','Falla Equipo Electronicos', 2);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('8','Falla de Variador de Frecuencia', 2);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('9','Rotura Resanado pieza mecanicas', 3);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('10','Desgaste de Mordazas', 3);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('11','Desgaste de Fajas Dentadas', 3);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('12','Desgaste Fajas de Traccion', 3);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('13','Desgaste de Rueda de Traccion', 3);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('14','Desincronizacion de Maquina', 3);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('15','Desgaste de Cadena Principal', 3);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('16','Desgaste de Empacadura', 3);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('17','Desgaste de Tapa', 3);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('18','Curvamiento de Eje', 3);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('19','Rotura Manguera Neumatica', 4);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('20','Desgaste Cilindro Compacto', 4);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('21','Desgaste Electrovalvula', 4);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('22','Apilador Electrico', 5);
+INSERT INTO grupo03.Categoria (Id_Categoria, Categoria, Id_Seccion) VALUES ('23','Extractor de Polvo', 5);
+
+
+----insert tabla Estado
+INSERT INTO grupo03.Estado (Id_Estado, Estado) VALUES
+(1, 'En espera'),
+(2, 'Observado'),
+(3, 'Culminado');
+
+
+----insert tabla Incidencia
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-01-05 19:35:00','1', '2022-01-05 19:35:00','2022-01-05 20:05:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-02-02 00:15:00','9', '2022-02-02 00:15:00','2022-02-05 00:58:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-02-02 10:06:00','6', '2022-02-02 10:06:00','2022-02-02 10:32:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-04-04 08:58:00','13', '2022-04-04 08:58:00','2022-04-04 09:35:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-04-04 00:58:00','2', '2022-04-04 00:58:00','2022-04-04 13:40:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-04-08 15:20:00','7', '2022-04-08 15:20:00','2022-04-08 16:02:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-05-05 15:58:00','4', '2022-05-05 15:58:00','2022-05-05 16:32:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-05-05 07:58:00','9', '2022-05-05 07:58:00','2022-05-05 08:32:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-05-05 09:30:00','3', '2022-05-05 09:30:00','2022-05-05 10:02:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-05-05 10:26:00','8', '2022-05-05 10:26:00','2022-05-05 11:02:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-06-06 17:58:00','3', '2022-06-06 17:58:00','2022-06-06 18:32:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-06-06 19:58:00','6', '2022-06-06 19:58:00','2022-06-06 20:30:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-06-06 10:18:00','2', '2022-06-06 10:18:00','2022-06-06 10:42:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-06-08 20:58:00','6', '2022-06-08 20:58:00','2022-06-08 21:37:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-06-08 11:08:00','9', '2022-06-08 11:08:00','2022-06-08 11:42:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-06-08 19:13:00','3', '2022-06-08 19:13:00','2022-06-08 19:47:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-06-09 17:10:00','2', '2022-06-09 17:10:00','2022-06-09 17:52:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-06-09 17:58:00','6', '2022-06-09 17:58:00','2022-06-09 18:42:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-06-12 20:13:00','4', '2022-06-12 20:13:00','2022-06-12 20:55:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-06-12 09:10:00','3', '2022-06-12 09:10:00','2022-06-12 09:47:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-07-11 20:10:00','5', '2022-07-11 20:10:00','2022-07-11 20:40:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-09-03 19:13:00','13', '2022-09-03 19:13:00','2022-09-03 19:42:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-10-12 11:13:00','12', '2022-10-12 11:13:00','2022-10-12 11:52:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-10-12 09:30:00','9', '2022-10-12 09:30:00','2022-10-12 10:02:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-11-08 20:58:00','1', '2022-11-08 20:58:00','2022-11-08 21:37:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-11-10 09:18:00','4', '2022-11-10 09:18:00','2022-11-10 10:02:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-11-10 18:18:00','2', '2022-11-10 18:18:00','2022-11-10 18:47:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-12-06 09:58:00','9', '2022-12-06 09:58:00','2022-12-06 10:42:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2022-12-08 11:10:00','2', '2022-12-08 11:10:00','2022-12-08 11:44:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-01-01 10:13:00','1', '2023-01-01 10:13:00','2023-01-01 10:57:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-01-01 09:38:00','13', '2023-01-01 09:38:00','2023-01-01 10:17:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-01-01 09:48:00','10', '2023-01-01 09:48:00','2023-01-01 10:27:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-01-02 09:58:00','6', '2023-01-02 09:58:00','2023-01-02 10:42:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-01-07 18:58:00','8', '2023-01-07 18:58:00','2023-01-07 19:37:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-02-03 09:28:00','11', '2023-02-03 09:28:00','2023-02-03 09:57:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-03-03 09:43:00','9', '2023-03-03 09:43:00','2023-03-03 10:17:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-03-03 11:13:00','7', '2023-03-03 11:13:00','2023-03-03 11:57:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-04-01 10:12:00','5', '2023-04-01 10:12:00','2023-04-01 10:56:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-04-09 05:58:00','7', '2023-04-09 05:58:00','2023-04-09 06:43:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-04-09 07:18:00','7', '2023-04-09 07:18:00','2023-04-09 07:52:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-04-10 07:58:00','2', '2023-04-10 07:58:00','2023-04-10 08:37:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-04-12 12:09:00','1', '2023-04-12 12:09:00','2023-04-12 12:30:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-05-02 01:20:00','10', '2023-05-02 01:20:00','2023-05-02 01:35:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-05-02 13:14:00','2', '2023-05-02 13:14:00','2023-05-02 13:34:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-05-04 22:07:00','11', '2023-05-04 22:07:00','2023-05-04 22:25:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-05-06 13:36:00','3', '2023-05-06 13:36:00','2023-05-06 13:49:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-05-07 16:55:00','6', '2023-05-07 16:55:00','2023-05-07 17:12:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-05-08 03:05:00','9', '2023-05-08 03:05:00','2023-05-08 03:22:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-05-10 12:12:00','11', '2023-05-10 12:12:00','2023-05-10 15:28:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-06-01 01:27:00','1', '2023-06-01 01:27:00','2023-06-01 01:40:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-06-01 03:49:00','9', '2023-06-01 03:49:00','2023-06-01 04:05:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-06-01 04:08:00','12', '2023-06-01 04:08:00','2023-06-01 04:29:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-06-11 00:20:00','8', '2023-06-11 00:20:00','2023-06-11 00:37:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-06-11 04:20:00','6', '2023-06-11 04:20:00','2023-06-11 04:42:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-06-11 08:34:00','3', '2023-06-11 08:34:00','2023-06-11 08:49:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-06-11 10:19:00','8', '2023-06-11 10:19:00','2023-06-11 10:42:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-06-11 02:11:00','6', '2023-06-11 02:11:00','2023-06-11 02:29:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-08-05 23:23:00','11', '2023-08-05 23:23:00','2023-08-05 23:44:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-12-02 11:46:00','5', '2023-12-02 11:46:00','2023-12-02 12:08:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-12-02 00:05:00','6', '2023-12-02 00:05:00','2023-12-02 00:24:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2023-12-02 02:16:00','4', '2023-12-02 02:16:00','2023-12-02 02:33:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-01-02 14:21:00','10', '2024-01-02 14:21:00','2024-01-02 14:35:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-01-05 15:21:00','4', '2024-01-05 15:21:00','2024-01-05 15:43:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-01-05 03:27:00','1', '2024-01-05 03:27:00','2024-01-05 03:43:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-01-05 16:42:00','13', '2024-01-05 16:42:00','2024-01-05 17:04:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-03-05 20:13:00','10', '2024-03-05 20:13:00','2024-03-05 20:40:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-03-05 18:57:00','8', '2024-03-05 18:57:00','2024-03-05 19:18:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-03-05 09:57:00','1', '2024-03-05 09:57:00','2024-03-05 10:32:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-03-07 02:06:00','11', '2024-03-07 02:06:00','2024-03-07 02:31:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-03-08 00:14:00','1', '2024-03-08 00:14:00','2024-03-08 00:32:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-03-11 05:22:00','11', '2024-03-11 05:22:00','2024-03-11 05:47:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-03-11 02:35:00','6', '2024-03-11 02:35:00','2024-03-11 02:53:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-03-11 01:38:00','5', '2024-03-11 01:38:00','2024-03-11 01:54:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-03-11 00:11:00','4', '2024-03-11 00:11:00','2024-03-11 00:41:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-04-03 03:51:00','10', '2024-04-03 03:51:00','2024-04-03 04:14:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-04-04 01:42:00','2', '2024-04-04 01:42:00','2024-04-04 02:03:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-04-04 11:33:00','13', '2024-04-04 11:33:00','2024-04-04 11:53:00','3', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-04-06 01:55:00','2', '2024-04-06 01:55:00','2024-04-06 02:15:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-04-06 04:06:00','11', '2024-04-06 04:06:00','2024-04-06 04:33:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-04-07 03:02:00','8', '2024-04-07 03:02:00','2024-04-07 03:34:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-04-07 13:22:00','11', '2024-04-07 13:22:00','2024-04-07 13:45:00','1', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-04-12 08:38:00','3', '2024-04-12 08:38:00','2024-04-12 08:52:00','2', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-04-12 09:35:00','2', '2024-04-12 09:35:00','2024-04-12 10:00:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-04-12 20:21:00','11', '2024-04-12 20:21:00','2024-04-12 20:38:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-05-01 18:06:00','10', '2024-05-01 18:06:00','2024-05-01 18:21:00','3', '3');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-05-01 16:02:00','10', '2024-05-01 16:02:00','2024-05-01 16:27:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-05-02 11:57:00','1', '2024-05-02 11:57:00','2024-05-02 12:21:00','2', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-05-02 09:57:00','7', '2024-05-02 09:57:00','2024-05-02 10:16:00','1', '2');
+INSERT INTO grupo03.Incidencia (Fecha_Hora_Registro, Id_Maquina, Fecha_Hora_Inicial_Parada, Fecha_Hora_Final_Parada, Id_Tecnico, Id_Estado) VALUES ('2024-05-02 15:21:00','11', '2024-05-02 15:21:00','2024-05-02 15:51:00','1', '3');
+
+
+----insert tabla Reg_Mantenimiento
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-01-05 19:37:00','2022-01-05 20:00:00', 1,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-04-02 00:17:00','2022-05-02 01:05:00', 2,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-04-02 10:07:00','2022-04-02 11:55:00', 3,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-04-04 09:00:00','2022-04-04 09:30:00', 4,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-04-04 13:00:00','2022-04-04 13:38:00', 5,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-04-08 15:25:00','2022-04-08 16:00:00', 6,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-05-05 16:00:00','2022-05-05 16:30:00', 7,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-05-05 08:00:00','2022-05-05 08:30:00', 8,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-05-05 09:32:00','2022-05-05 10:00:00', 9,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-05-05 10:28:00','2022-05-05 11:00:00', 10,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-06-06 18:00:00','2022-06-06 18:30:00', 11,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-06-06 20:00:00','2022-06-06 20:25:00', 12,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-06-06 10:20:00','2022-06-06 10:40:00', 13,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-06-08 21:00:00','2022-06-08 21:35:00', 14,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-06-08 11:10:00','2022-06-08 11:40:00', 15,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-06-08 19:15:00','2022-06-08 19:45:00', 16,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-06-09 17:12:00','2022-06-09 17:50:00', 17,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-06-09 18:00:00','2022-06-09 18:40:00', 18,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-06-12 20:15:00','2022-06-12 20:50:00', 19,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-06-12 09:12:00','2022-06-12 09:45:00', 20,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-07-11 20:12:00','2022-07-11 20:38:00', 21,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-09-03 19:15:00','2022-09-03 19:40:00', 22,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-10-12 11:15:00','2022-10-12 11:50:00', 23,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-10-12 09:32:00','2022-10-12 10:00:00', 24,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-11-08 21:00:00','2022-11-08 21:35:00', 25,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-11-10 09:21:00','2022-11-10 10:00:00', 26,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-11-10 18:20:00','2022-11-10 18:45:00', 27,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-12-06 10:00:00','2022-12-06 10:40:00', 28,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2022-12-08 11:12:00','2022-12-08 11:42:00', 29,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-01-01 10:15:00','2023-01-01 10:55:00', 30,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-01-01 09:40:00','2023-01-01 10:15:00', 31,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-01-01 09:50:00','2023-01-01 10:25:00', 32,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-01-02 10:00:00','2023-01-02 10:40:00', 33,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-01-07 19:00:00','2023-01-07 19:35:00', 34,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-02-03 09:30:00','2023-02-03 09:55:00', 35,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-03-03 09:45:00','2023-03-03 10:15:00', 36,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-03-03 11:15:00','2023-03-03 11:55:00', 37,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-04-01 10:14:00','2023-04-01 10:54:00', 38,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-04-09 06:00:00','2023-04-09 06:40:00', 39,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-04-09 07:20:00','2023-04-09 07:50:00', 40,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-04-10 08:00:00','2023-04-10 08:35:00', 41,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-04-12 12:12:00','2023-04-12 12:27:00', 42,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-05-02 01:23:00','2023-05-02 01:29:00', 43,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-05-02 13:17:00','2023-05-02 13:28:00', 44,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-05-04 22:10:00','2023-05-04 22:19:00', 45,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-05-06 13:39:00','2023-05-06 13:43:00', 46,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-05-07 16:58:00','2023-05-07 17:06:00', 47,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-05-08 03:08:00','2023-05-08 03:16:00', 48,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-05-10 12:15:00','2023-05-10 15:22:00', 49,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-06-01 01:30:00','2023-06-01 01:34:00', 50,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-06-01 03:51:00','2023-06-01 03:59:00', 51,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-06-01 04:11:00','2023-06-01 04:23:00', 52,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-06-11 00:23:00','2023-06-11 00:31:00', 53,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-06-11 04:23:00','2023-06-11 04:36:00', 54,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-06-11 08:37:00','2023-06-11 08:43:00', 55,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-06-11 10:21:00','2023-06-11 10:36:00', 56,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-06-11 02:14:00','2023-06-11 02:23:00', 57,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-08-05 23:26:00','2023-08-05 23:38:00', 58,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-12-02 11:49:00','2023-12-02 12:02:00', 59,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-12-02 00:06:00','2023-12-02 00:18:00', 60,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2023-12-02 02:19:00','2023-12-02 02:27:00', 61,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-01-02 14:24:00','2024-01-02 14:29:00', 62,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-01-05 15:23:00','2024-01-05 15:37:00', 63,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-01-05 03:30:00','2024-01-05 03:37:00', 64,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-01-05 16:45:00','2024-01-05 16:58:00', 65,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-03-05 20:16:00','2024-03-05 20:34:00', 66,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-03-05 19:00:00','2024-03-05 19:12:00', 67,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-03-05 10:00:00','2024-03-05 10:26:00', 68,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-03-07 02:09:00','2024-03-07 02:25:00', 69,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-03-08 00:17:00','2024-03-08 00:26:00', 70,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-03-11 05:25:00','2024-03-11 05:41:00', 71,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-03-11 02:38:00','2024-03-11 02:47:00', 72,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-03-11 01:41:00','2024-03-11 01:48:00', 73,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-03-11 00:14:00','2024-03-11 00:35:00', 74,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-04-03 03:52:00','2024-04-03 04:08:00', 75,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-04-04 01:45:00','2024-04-04 01:57:00', 76,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-04-04 11:36:00','2024-04-04 11:47:00', 77,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-04-06 01:58:00','2024-04-06 02:09:00', 78,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-04-06 04:09:00','2024-04-06 04:27:00', 79,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-04-07 03:04:00','2024-04-07 03:28:00', 80,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-04-07 13:25:00','2024-04-07 13:39:00', 81,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-04-12 08:41:00','2024-04-12 08:46:00', 82,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-04-12 09:36:00','2024-04-12 09:54:00', 83,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-04-12 20:24:00','2024-04-12 20:32:00', 84,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-05-01 18:09:00','2024-05-01 18:15:00', 85,'2');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-05-01 16:05:00','2024-05-01 16:21:00', 86,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-05-02 12:00:00','2024-05-02 12:15:00', 87,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-05-02 10:00:00','2024-05-02 10:10:00', 88,'1');
+INSERT INTO grupo03.Reg_Mantenimiento (Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion, Id_Incidencia,Id_Turno) VALUES ('2024-05-02 15:24:00','2024-05-02 15:45:00', 89,'1');
+
+
+----Tabla Detalle_Reg_Mantenimiento
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('6','Descripci�n de la reparaci�n 968431019', 27,'1');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 1520007664', 41,'1');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 272033011', 13,'1');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 647121999', 46,'1');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 2044782811', 7,'2');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 1747507199', 36,'3');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 1146382640', 38,'4');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 758768893', 41,'5');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 426700099', 16,'6');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('10','Descripci�n de la reparaci�n 1092248578', 44,'6');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 1875504438', 11,'7');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('6','Descripci�n de la reparaci�n 1362864770', 34,'7');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 1003748341', 9,'8');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 985032568', 33,'8');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('11','Descripci�n de la reparaci�n 1018298112', 44,'9');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('2','Descripci�n de la reparaci�n 367719098', 20,'9');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('2','Descripci�n de la reparaci�n 1713969886', 10,'10');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 1648323025', 46,'10');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('11','Descripci�n de la reparaci�n 1338940430', 27,'11');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('4','Descripci�n de la reparaci�n 1892370971', 22,'11');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 1937526929', 10,'12');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('5','Descripci�n de la reparaci�n 357153669', 24,'12');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 1604801000', 31,'12');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('17','Descripci�n de la reparaci�n 392599110', 43,'13');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 79266535', 15,'13');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 1757221169', 46,'13');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('4','Descripci�n de la reparaci�n 1185287254', 43,'13');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('15','Descripci�n de la reparaci�n 1715364560', 1,'14');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 958652519', 3,'15');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('6','Descripci�n de la reparaci�n 1360563215', 41,'15');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 283959362', 15,'15');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('4','Descripci�n de la reparaci�n 32029725', 27,'15');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('5','Descripci�n de la reparaci�n 671831204', 21,'16');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('17','Descripci�n de la reparaci�n 183720549', 47,'16');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 93307726', 30,'17');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('11','Descripci�n de la reparaci�n 357193321', 42,'17');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('6','Descripci�n de la reparaci�n 1747515176', 1,'18');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 304599004', 30,'18');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('12','Descripci�n de la reparaci�n 1506164246', 28,'19');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 1012796804', 15,'20');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 750960729', 24,'20');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 147686899', 11,'21');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 1310273414', 36,'21');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 790878323', 18,'22');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 1688635533', 30,'22');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('2','Descripci�n de la reparaci�n 352847413', 42,'22');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('4','Descripci�n de la reparaci�n 139846196', 45,'22');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('15','Descripci�n de la reparaci�n 109081726', 41,'23');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 1232926600', 46,'23');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 1310273414', 36,'23');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('5','Descripci�n de la reparaci�n 961358377', 43,'24');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 382712408', 26,'24');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 1010819311', 41,'24');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 1280489691', 43,'25');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 737611473', 41,'25');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 1385723904', 49,'25');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 925591165', 6,'26');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 1456420829', 16,'26');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('9','Descripci�n de la reparaci�n 413522555', 42,'26');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 1853873711', 21,'27');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('9','Descripci�n de la reparaci�n 1834014050', 47,'27');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('15','Descripci�n de la reparaci�n 1728137828', 7,'27');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('9','Descripci�n de la reparaci�n 469997779', 30,'28');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('11','Descripci�n de la reparaci�n 1100761866', 2,'28');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 929489903', 41,'28');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 905457734', 14,'29');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 741712866', 25,'29');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('16','Descripci�n de la reparaci�n 328008312', 27,'30');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 647121999', 46,'30');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 618824507', 32,'31');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 2112035028', 29,'31');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('6','Descripci�n de la reparaci�n 1612584350', 7,'32');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 905830322', 10,'32');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 883093931', 5,'32');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 2118864218', 20,'33');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('11','Descripci�n de la reparaci�n 1777038328', 4,'33');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 1855753478', 43,'33');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 117398187', 16,'34');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 714141168', 21,'34');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 849022795', 27,'34');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 958895875', 16,'35');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 1312246090', 47,'35');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 1923147723', 36,'36');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 338735783', 44,'36');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('4','Descripci�n de la reparaci�n 860839175', 15,'36');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('10','Descripci�n de la reparaci�n 717060455', 36,'37');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 381192306', 11,'37');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 703139390', 31,'37');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('2','Descripci�n de la reparaci�n 1675591809', 34,'38');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 916745911', 41,'38');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 1460072045', 29,'38');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 2081281293', 17,'39');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('11','Descripci�n de la reparaci�n 854246847', 9,'39');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 274447040', 4,'39');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('15','Descripci�n de la reparaci�n 1523418804', 17,'40');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 919102270', 23,'40');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('5','Descripci�n de la reparaci�n 87739516', 49,'40');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('10','Descripci�n de la reparaci�n 930611599', 42,'41');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('5','Descripci�n de la reparaci�n 193177176', 29,'41');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('4','Descripci�n de la reparaci�n 402663653', 37,'42');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('12','Descripci�n de la reparaci�n 19879220', 8,'42');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 1232926600', 46,'43');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 1648323025', 46,'43');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 1075697626', 43,'43');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 1988281732', 25,'44');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 2026351589', 11,'44');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('10','Descripci�n de la reparaci�n 1511971758', 15,'45');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('16','Descripci�n de la reparaci�n 1826137108', 13,'46');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 1062011761', 48,'47');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 1389245762', 33,'47');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('2','Descripci�n de la reparaci�n 982934986', 13,'48');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 1536990166', 36,'48');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('16','Descripci�n de la reparaci�n 135762321', 11,'48');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('5','Descripci�n de la reparaci�n 372719132', 14,'50');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('16','Descripci�n de la reparaci�n 1792726961', 31,'50');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('9','Descripci�n de la reparaci�n 1834014050', 47,'51');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 706218326', 3,'51');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('16','Descripci�n de la reparaci�n 276046078', 46,'52');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 934937094', 32,'52');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 1252436632', 11,'52');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('4','Descripci�n de la reparaci�n 397242337', 22,'53');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('7','Descripci�n de la reparaci�n 496934676', 20,'53');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 1316731027', 30,'53');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 714141168', 21,'53');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('16','Descripci�n de la reparaci�n 688240939', 4,'54');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 97358410', 9,'54');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 575630780', 27,'55');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 917024716', 49,'55');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 1875504438', 11,'55');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 261226218', 6,'55');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 929489903', 41,'56');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 2091676507', 21,'56');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 585992844', 4,'57');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 618824507', 32,'58');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('9','Descripci�n de la reparaci�n 180413465', 1,'58');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 508955443', 4,'59');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('17','Descripci�n de la reparaci�n 1739251144', 25,'59');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('15','Descripci�n de la reparaci�n 43592566', 27,'59');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 193946665', 10,'60');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('2','Descripci�n de la reparaci�n 689694178', 9,'60');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 52383909', 39,'60');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 100185454', 47,'61');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('10','Descripci�n de la reparaci�n 48898117', 24,'61');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('2','Descripci�n de la reparaci�n 941477248', 33,'62');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 750960729', 24,'62');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 916745911', 41,'63');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 1413816679', 49,'63');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('12','Descripci�n de la reparaci�n 231020951', 25,'64');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 1604801000', 31,'64');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 2134870247', 46,'65');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('10','Descripci�n de la reparaci�n 592413717', 25,'66');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 559992443', 1,'66');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 929048289', 8,'67');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('7','Descripci�n de la reparaci�n 584598169', 13,'67');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 93307726', 30,'68');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('7','Descripci�n de la reparaci�n 1645077994', 23,'68');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 493455953', 46,'69');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 905457734', 14,'69');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 2115033308', 22,'70');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('11','Descripci�n de la reparaci�n 357193321', 42,'70');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 345214764', 44,'71');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('17','Descripci�n de la reparaci�n 2005142448', 36,'71');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 2053434208', 18,'72');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('2','Descripci�n de la reparaci�n 741967292', 16,'72');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 1792783359', 29,'73');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 1286543968', 19,'73');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('15','Descripci�n de la reparaci�n 1096993952', 43,'73');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 328468081', 25,'74');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('9','Descripci�n de la reparaci�n 1124548021', 38,'74');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 1106715571', 12,'75');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('11','Descripci�n de la reparaci�n 1338940430', 27,'75');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('9','Descripci�n de la reparaci�n 6865519', 16,'76');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('15','Descripci�n de la reparaci�n 308572230', 12,'76');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 1585433423', 46,'76');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 2118864218', 20,'76');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 427510752', 44,'76');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('7','Descripci�n de la reparaci�n 12655185', 8,'77');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('10','Descripci�n de la reparaci�n 1692617425', 16,'77');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('6','Descripci�n de la reparaci�n 350688943', 21,'77');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('20','Descripci�n de la reparaci�n 338735783', 44,'77');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('11','Descripci�n de la reparaci�n 2004137518', 37,'77');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('5','Descripci�n de la reparaci�n 1162293261', 45,'77');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 575998698', 25,'77');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 1376650924', 31,'78');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 1312246090', 47,'78');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('2','Descripci�n de la reparaci�n 51644635', 24,'78');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 1827681557', 24,'78');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('16','Descripci�n de la reparaci�n 1062120165', 9,'79');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 2058079310', 27,'79');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 1300234366', 6,'79');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('7','Descripci�n de la reparaci�n 1333643403', 23,'79');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('17','Descripci�n de la reparaci�n 727743292', 46,'80');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 2073292919', 34,'80');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('1','Descripci�n de la reparaci�n 1025224127', 45,'80');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('12','Descripci�n de la reparaci�n 1790997323', 19,'80');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('9','Descripci�n de la reparaci�n 1678871436', 1,'80');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('9','Descripci�n de la reparaci�n 622632671', 26,'81');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('8','Descripci�n de la reparaci�n 79266535', 15,'81');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 925591165', 6,'81');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('6','Descripci�n de la reparaci�n 678038065', 26,'81');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('7','Descripci�n de la reparaci�n 577544287', 39,'81');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 1319760029', 33,'82');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('19','Descripci�n de la reparaci�n 2141385965', 31,'82');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 790878323', 18,'82');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('23','Descripci�n de la reparaci�n 2122615821', 39,'82');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 2012839598', 13,'82');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('5','Descripci�n de la reparaci�n 233388454', 15,'83');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('4','Descripci�n de la reparaci�n 1892370971', 22,'83');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('13','Descripci�n de la reparaci�n 484609122', 25,'83');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('17','Descripci�n de la reparaci�n 61381887', 40,'83');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 1397039467', 44,'83');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 989703926', 5,'84');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('4','Descripci�n de la reparaci�n 1729302634', 22,'84');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 690211362', 45,'84');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 2037735084', 5,'85');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('5','Descripci�n de la reparaci�n 961358377', 43,'85');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('12','Descripci�n de la reparaci�n 1525432196', 17,'85');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 387705901', 3,'85');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 1945474311', 4,'85');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 1520007664', 41,'86');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('7','Descripci�n de la reparaci�n 520380001', 24,'86');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 1921372266', 24,'86');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('21','Descripci�n de la reparaci�n 1730456464', 10,'86');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('5','Descripci�n de la reparaci�n 1658917644', 14,'86');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('2','Descripci�n de la reparaci�n 958871668', 18,'86');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('7','Descripci�n de la reparaci�n 898110698', 18,'87');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('6','Descripci�n de la reparaci�n 1861030429', 38,'87');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 262251211', 34,'87');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('3','Descripci�n de la reparaci�n 1280489691', 43,'87');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('14','Descripci�n de la reparaci�n 720519626', 3,'87');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('17','Descripci�n de la reparaci�n 1928818121', 48,'88');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('6','Descripci�n de la reparaci�n 1362864770', 34,'88');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 2031544104', 27,'89');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('18','Descripci�n de la reparaci�n 1415245426', 30,'89');
+INSERT INTO grupo03.Detalle_Reg_Mantenimiento (Id_Categoria, Descripcion, Id_Repuesto, Id_Reg_Mantenimiento) VALUES ('22','Descripci�n de la reparaci�n 1456420829', 16,'89');
+
+SELECT * FROM grupo03.Maquinista
+
+SELECT * FROM grupo03.Maquina
+
+SELECT * FROM grupo03.Tecnico
+
+SELECT * FROM grupo03.Turno
+
+SELECT * FROM grupo03.Repuestos
+
+SELECT * FROM grupo03.Seccion
+
+SELECT * FROM grupo03.Categoria
+
+SELECT * FROM grupo03.Estado
+
+SELECT * FROM grupo03.Incidencia
+
+SELECT * FROM grupo03.Reg_Mantenimiento
+
+SELECT * FROM grupo03.Detalle_Reg_Mantenimiento
+
+---PREGUNTA 01	�Cu�ntas incidencias han sido registradas en el a�o 2023?
+select count(Id_Incidencia) as Cant_Incidencia from grupo03.incidencia where year(Fecha_Hora_Registro) = '2023'
+
+---PREGUNTA 02	�Qu� secciones de registros de mantenimiento se han reportado con mayor incidencia en todo el a�o 2023?
+select
+count(T3.Id_Reg_Mantenimiento) as Cant_Registro,
+T2.Seccion
+from grupo03.Detalle_Reg_Mantenimiento T0
+-----------------------------------
+inner join grupo03.Categoria T1 on 
+T0.Id_Categoria = T1.Id_Categoria
+-----------------------------------
+inner join grupo03.Seccion T2 on 
+T1.Id_Seccion = T2.Id_Seccion
+-----------------------------------
+inner join grupo03.Reg_Mantenimiento T3 on
+T0.Id_Reg_Mantenimiento = T3.Id_Reg_Mantenimiento
+-----------------------------------
+inner join grupo03.Incidencia T4 on
+T3.Id_Incidencia = T4.Id_Incidencia
+-----------------------------------
+where 
+year(Fecha_Hora_Registro) = '2023'
+group by
+T2.Seccion
+
+---PREGUNTA 03	�Qu� categor�as han sido m�s frecuentes en el registro de mantenimiento?
+select
+T1.Categoria,
+count(T3.Id_Reg_Mantenimiento) as Cant_Registro
+from grupo03.Detalle_Reg_Mantenimiento T0
+-----------------------------------
+inner join grupo03.Categoria T1 on 
+T0.Id_Categoria = T1.Id_Categoria
+-----------------------------------
+inner join grupo03.Reg_Mantenimiento T3 on
+T0.Id_Reg_Mantenimiento = T3.Id_Reg_Mantenimiento
+-----------------------------------
+group by
+T1.Categoria
+
+---PREGUNTA 04	�Cual es el tiempo max. en minutos, entre el registro y la ejecuci�n del mantenimiento,por tecnico en el a�o 2023?  *
+select Top 1
+T2.Nombre,
+Max(DATEDIFF(MINUTE, Fecha_Hora_Registro, Fecha_Hora_Final_Reparacion)) AS tiempo_minimo_reparacion
+from grupo03.Reg_Mantenimiento T0
+-----------------------------------
+inner join grupo03.Incidencia T1 on
+T0.Id_Incidencia = T1.Id_Incidencia
+-----------------------------------
+inner join grupo03.Tecnico T2 on 
+T1.Id_Tecnico = T2.Id_Tecnico
+-----------------------------------
+where 
+YEAR(Fecha_Hora_Inicial_Reparacion) = 2023
+group by 
+T2.Nombre
+ORDER BY
+Max(DATEDIFF(MINUTE, Fecha_Hora_Registro, Fecha_Hora_Final_Reparacion)) desc
+
+
+---PREGUNTA 05	�Cu�l ha sido el repuesto m�s caro en la reparaci�n de mantenimiento en todo el a�o 2023?
+select top 1
+T1.Nombre,
+Max(T1.Precio) As Mas_Caro
+from grupo03.Detalle_Reg_Mantenimiento T0
+-----------------------------------
+inner join grupo03.Repuestos T1 on 
+T0.Id_Repuesto = T1.Id_Repuesto
+-----------------------------------
+inner join grupo03.Reg_Mantenimiento T3 on
+T0.Id_Reg_Mantenimiento = T3.Id_Reg_Mantenimiento
+-----------------------------------
+where 
+year(Fecha_Hora_Inicial_Reparacion) = '2023'
+group by
+T1.Nombre,
+T1.Precio 
+order by 
+T1.Precio desc
+
+---PREGUNTA 06	�Cu�nto tiempo m�nimo se demora en realizar la reparaci�n de una maquina en el registro de mantenimiento expresado en minutos en el a�o 2023?
+select 
+T2.Maquina,
+DATEDIFF(MINUTE, Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion) AS tiempo_minimo_reparacion
+from grupo03.Reg_Mantenimiento T0
+-----------------------------------
+inner join grupo03.Incidencia T1 on
+T0.Id_Incidencia = T1.Id_Incidencia
+-----------------------------------
+inner join grupo03.Maquina T2 on 
+T1.Id_Maquina = T2.Id_Maquina
+-----------------------------------
+where 
+YEAR(Fecha_Hora_Inicial_Reparacion) = 2023
+ORDER BY
+DATEDIFF(MINUTE, Fecha_Hora_Inicial_Reparacion, Fecha_Hora_Final_Reparacion) 
+
+
+---PREGUNTA 07	�Cuales son las 3 m�quinas que han generado m�s reportes de incidencias en el a�o 2023?
+select top 3 
+T1.Maquina,
+counT(T0.Id_Incidencia) as Cant_Registro
+from grupo03.Incidencia T0
+inner join grupo03.Maquina T1 on 
+T0.Id_Maquina = T1.Id_Maquina
+where 
+year(Fecha_Hora_Registro) = '2023'
+group by
+T1.Maquina
+order by 
+Cant_Registro desc
+
+---PREGUNTA 08	�Cuales son las 3 m�quinas que han generado menos reportes de incidencias en el a�o 2023?
+select top 3
+T1.Maquina,
+counT(T0.Id_Incidencia) as Cant_Registro
+from grupo03.Incidencia T0
+---------------------------------
+inner join grupo03.Maquina T1 on 
+T0.Id_Maquina = T1.Id_Maquina
+---------------------------------
+where 
+year(Fecha_Hora_Registro) = '2023'
+group by
+T1.Maquina
+order by 
+Cant_Registro asc
+
+---PREGUNTA 09	�Cuales son los 3 respuestos que mas se han utilizado en los mantenimientos en el primer trimestre del a�o 2023?
+select top 3
+T1.Nombre,
+counT(T0.Id_Detalle_Reg_Mantenimiento) as Cant_Utilizada
+from grupo03.Detalle_Reg_Mantenimiento T0
+-----------------------------------
+inner join grupo03.Repuestos T1 on 
+T0.Id_Repuesto = T1.Id_Repuesto
+-----------------------------------
+inner join grupo03.Reg_Mantenimiento T2 on
+T0.Id_Reg_Mantenimiento = T2.Id_Reg_Mantenimiento
+-----------------------------------
+inner join grupo03.Incidencia T3 on
+T2.Id_Incidencia = T3.Id_Incidencia
+-----------------------------------
+where 
+year(Fecha_Hora_Inicial_Reparacion) = '2023' and
+DATEPART(QUARTER, T2.Fecha_Hora_Inicial_Reparacion) = '1'
+group by
+T1.Nombre 
+order by
+Cant_Utilizada desc
+
+---PREGUNTA 10	�Cual ha sido el monto total invertido en repuestos durante cada uno de los trimestre del anio 2023?
+select 
+DATEPART(QUARTER, T3.Fecha_Hora_Inicial_Reparacion) AS trimestre,
+sum(T1.Precio) as total_invertido
+from grupo03.Detalle_Reg_Mantenimiento T0
+-----------------------------------
+inner join grupo03.Repuestos T1 on 
+T0.Id_Repuesto = T1.Id_Repuesto
+-----------------------------------
+inner join grupo03.Reg_Mantenimiento T3 on
+T0.Id_Reg_Mantenimiento = T3.Id_Reg_Mantenimiento
+-----------------------------------
+inner join grupo03.Incidencia T4 on
+T3.Id_Incidencia = T4.Id_Incidencia
+-----------------------------------
+where 
+year(T3.Fecha_Hora_Inicial_Reparacion) = '2023'
+group by
+DATEPART(QUARTER, T3.Fecha_Hora_Inicial_Reparacion)
+
